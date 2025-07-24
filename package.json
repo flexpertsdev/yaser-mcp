@@ -1,0 +1,29 @@
+{
+  "name": "yaser-mcp",
+  "version": "1.0.0",
+  "description": "SEO Analysis Tool using Firecrawl MCP",
+  "main": "src/seo-analyzer.js",
+  "scripts": {
+    "analyze": "node src/seo-analyzer.js",
+    "quick": "node src/quick-check.js",
+    "batch": "node src/batch-analyzer.js",
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "keywords": ["seo", "analysis", "firecrawl", "mcp"],
+  "author": "Jos",
+  "license": "ISC",
+  "dependencies": {
+    "@firecrawl/mcp": "^1.0.0",
+    "dotenv": "^16.0.0",
+    "@nuxt/ui": "^2.11.1",
+    "nuxt": "^3.8.0",
+    "vue": "^3.3.8"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest"
+  }
+}

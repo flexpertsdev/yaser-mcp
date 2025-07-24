@@ -4,7 +4,7 @@
   "description": "SEO Analysis Tool using Firecrawl MCP",
   "main": "src/seo-analyzer.js",
   "scripts": {
-    "analyze": "node src/seo-analyzer.js",
+    "analyze": "node src/seo-analyzer-simple.js",
     "quick": "node src/quick-check.js",
     "batch": "node src/batch-analyzer.js",
     "build": "nuxt build",
@@ -17,11 +17,12 @@
   "author": "Jos",
   "license": "ISC",
   "dependencies": {
-    "@firecrawl/mcp": "^1.0.0",
+    "@mendable/firecrawl-js": "^0.0.36",
     "dotenv": "^16.0.0",
     "@nuxt/ui": "^2.11.1",
     "nuxt": "^3.8.0",
-    "vue": "^3.3.8"
+    "vue": "^3.3.8",
+    "@tailwindcss/typography": "^0.5.10"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest"

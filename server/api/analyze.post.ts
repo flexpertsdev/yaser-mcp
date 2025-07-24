@@ -40,21 +40,26 @@ export default defineEventHandler(async (event) => {
 })
 
 async function useFirecrawlAnalyzer(url: string) {
-  // Import and use our existing analyzer
-  const analyzerPath = join(process.cwd(), 'src', 'seo-analyzer.js')
+  // Import and use our simplified analyzer
+  const analyzerPath = join(process.cwd(), 'src', 'seo-analyzer-simple.js')
   
   try {
     // Dynamic import of the analyzer
     const { analyzeSEO } = await import(analyzerPath)
     return await analyzeSEO(url)
   } catch (error) {
+    console.error('Analyzer error:', error)
     // Basic fallback analysis
     return {
       url,
       title: 'Analysis unavailable',
       metaDescription: 'Could not analyze this URL',
       overallScore: 0,
-      recommendations: ['Unable to analyze this website. Please check the URL and try again.']
+      recommendations: ['Unable to analyze this website. Please check the URL and try again.'],
+      h1Count: 0,
+      imageCount: 0,
+      linkCount: 0,
+      wordCount: 0
     }
   }
 }

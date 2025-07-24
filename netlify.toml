@@ -9,3 +9,13 @@
 
 [build.environment]
   NITRO_PRESET = "netlify"
+
+# Auto-deploy on git push
+[context.production]
+  command = "npm run generate"
+  
+[context.deploy-preview]
+  command = "npm run generate"
+
+[context.branch-deploy]
+  command = "npm run generate"

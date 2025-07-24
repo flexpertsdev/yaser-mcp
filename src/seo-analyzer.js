@@ -1,13 +1,12 @@
 // Main SEO Analyzer Implementation
-const firecrawl = require('@firecrawl/mcp');
-const configs = require('../docs/firecrawl-seo-configs');
+const FirecrawlApp = require('@mendable/firecrawl-js').default;
 const ReportGenerator = require('./utils/report-generator');
 const fs = require('fs').promises;
 const path = require('path');
 
 class SEOAnalyzer {
   constructor(apiKey) {
-    this.firecrawl = new firecrawl.FirecrawlApp({ apiKey });
+    this.firecrawl = new FirecrawlApp({ apiKey });
     this.reportGenerator = new ReportGenerator();
   }
 

@@ -6,3 +6,8 @@ dist/
 reports/
 .DS_Store
 *.log
+# Build artifacts
+.netlify/
+.output/
+.nuxt/
+package-lock.json

@@ -9,21 +9,12 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    // This would call the actual MCP Firecrawl scrape function
-    // For demonstration, we'll call the MCP tool directly
+    // In production deployment, MCP tools are not available
+    // Use the mock data generator for demonstration
+    console.log('Using mock MCP data for deployment environment')
     
-    // Import the actual MCP function call (this would be available in a real MCP environment)
-    const { mcp__mcp_server_firecrawl__firecrawl_scrape } = await import('#mcp-tools')
-    
-    const result = await mcp__mcp_server_firecrawl__firecrawl_scrape({
-      url: body.url,
-      formats: body.formats || ['extract', 'markdown'],
-      extract: body.extract,
-      onlyMainContent: body.onlyMainContent || true,
-      maxAge: body.maxAge || 3600000
-    })
-
-    return result
+    // Return mock data that simulates MCP Firecrawl results
+    return createMockMCPResult(body.url, body.extract)
     
   } catch (error) {
     console.error('MCP Firecrawl scrape error:', error)

@@ -13,15 +13,21 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
-  "keywords": ["seo", "analysis", "firecrawl", "mcp"],
+  "keywords": [
+    "seo",
+    "analysis",
+    "firecrawl",
+    "mcp"
+  ],
   "author": "Jos",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.0.0",
+    "@mendable/firecrawl-js": "^1.29.2",
     "@nuxt/ui": "^2.11.1",
+    "@tailwindcss/typography": "^0.5.10",
+    "dotenv": "^16.0.0",
     "nuxt": "^3.8.0",
-    "vue": "^3.3.8",
-    "@tailwindcss/typography": "^0.5.10"
+    "vue": "^3.3.8"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest"

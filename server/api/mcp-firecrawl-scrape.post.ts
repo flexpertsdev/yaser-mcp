@@ -1,3 +1,5 @@
+import FirecrawlApp from '@mendable/firecrawl-js'
+
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   
@@ -8,16 +10,22 @@ export default defineEventHandler(async (event) => {
     })
   }
 
+  const config = useRuntimeConfig()
+  
   try {
-    // In production deployment, MCP tools are not available
-    // Use the mock data generator for demonstration
-    console.log('Using mock MCP data for deployment environment')
+    // Use actual Firecrawl API in production
+    const app = new FirecrawlApp({ apiKey: config.firecrawlApiKey })
     
-    // Return mock data that simulates MCP Firecrawl results
-    return createMockMCPResult(body.url, body.extract)
+    const result = await app.scrapeUrl(body.url, {
+      formats: body.formats || ['extract', 'markdown'],
+      extract: body.extract,
+      onlyMainContent: body.onlyMainContent !== false,
+    })
+    
+    return result
     
   } catch (error) {
-    console.error('MCP Firecrawl scrape error:', error)
+    console.error('Firecrawl API error:', error)
     
     // Fallback with simulated data for demonstration
     return createMockMCPResult(body.url, body.extract)

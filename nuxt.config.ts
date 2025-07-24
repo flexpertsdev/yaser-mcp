@@ -9,12 +9,5 @@ export default defineNuxtConfig({
     public: {
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000'
     }
-  },
-  nitro: {
-    preset: 'netlify',
-    experimental: {
-      wasm: true
-    },
-    serveStatic: true
   }
 })

@@ -11,24 +11,8 @@ export default defineEventHandler(async (event) => {
   try {
     console.log(`🔍 Starting MCP SEO analysis for: ${url}`)
     
-    // Use the actual MCP Firecrawl scrape function
-    const analysis = await performMCPSEOAnalysis(url)
-    
-    console.log('✅ MCP SEO analysis complete!')
-    return analysis
-    
-  } catch (error) {
-    console.error('❌ MCP SEO analysis error:', error)
-    
-    // Return fallback analysis
-    return createFallbackAnalysis(url, error.message || 'Analysis failed')
-  }
-})
-
-async function performMCPSEOAnalysis(url: string) {
-  try {
-    // Use the actual MCP Firecrawl scrape tool with comprehensive SEO extraction
-    const mcpResult = await $fetch('/api/mcp-firecrawl-scrape', {
+    // Use the MCP Firecrawl scrape tool with comprehensive extraction
+    const firecrawlResult = await $fetch('/api/mcp/firecrawl-scrape', {
       method: 'POST',
       body: {
         url,
@@ -148,33 +132,33 @@ async function performMCPSEOAnalysis(url: string) {
               }
             }
           },
-          prompt: `Analyze this webpage comprehensively for SEO. Extract:
-            1. All SEO meta tags (title, description, keywords, canonical, robots, etc.)
-            2. Complete heading hierarchy (H1-H6) with actual text content
-            3. All images with alt text, titles, and dimensions
-            4. Internal and external links with anchor text and titles
-            5. Social media meta tags (Open Graph, Twitter Cards)
-            6. Content metrics (word count, reading time, paragraphs, sentences)
-            7. Technical SEO elements (structured data, hreflang, breadcrumbs, forms)
-            
-            Provide detailed, accurate data for comprehensive SEO analysis. Pay special attention to missing elements and optimization opportunities.`
+          prompt: `Analyze this webpage comprehensively for SEO. Extract all SEO meta tags, heading hierarchy, images with alt text, internal/external links, social media tags, content metrics, and technical SEO elements. Provide detailed, accurate data for comprehensive SEO analysis.`
         },
         onlyMainContent: true,
-        maxAge: 3600000 // 1 hour cache for faster analysis
+        maxAge: 3600000 // 1 hour cache
       }
+    }).catch(error => {
+      console.error('MCP Firecrawl call failed:', error)
+      throw error
     })
 
-    return processFirecrawlMCPResult(mcpResult, url)
+    // Process the MCP result
+    const analysis = processFirecrawlMCPResult(firecrawlResult, url)
+    
+    console.log('✅ MCP SEO analysis complete!')
+    return analysis
     
   } catch (error) {
-    console.error('MCP Firecrawl call failed:', error)
-    throw error
+    console.error('❌ MCP SEO analysis error:', error)
+    
+    // Return fallback analysis
+    return createFallbackAnalysis(url, error.message || 'Analysis failed')
   }
-}
+})
 
 function processFirecrawlMCPResult(result: any, url: string) {
   const extracted = result.extract || {}
-  const markdown = result.markdown || result.content || ''
+  const markdown = result.markdown || ''
   
   const seo = extracted.seo || {}
   const headings = extracted.headings || {}
@@ -314,7 +298,6 @@ function processFirecrawlMCPResult(result: any, url: string) {
     // Metadata
     mcpPowered: true,
     extractionSchema: 'comprehensive-seo-v1',
-    firecrawlUsed: true,
     analyzedAt: new Date().toISOString()
   }
 }
@@ -340,7 +323,6 @@ function createFallbackAnalysis(url: string, errorMessage: string) {
     content: {},
     links: { internal: [], external: [] },
     mcpPowered: false,
-    firecrawlUsed: false,
     analyzedAt: new Date().toISOString()
   }
 }
